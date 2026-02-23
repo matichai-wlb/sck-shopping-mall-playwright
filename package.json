@@ -1,0 +1,13 @@
+{
+  "name": "sck-shopping-mall-playwright",
+  "version": "1.0.0",
+  "description": "SCK Shopping Mall Playwright E2E Tests",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "cd e2e-api && npm test",
+    "test:ui": "cd e2e-ui && npm test"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
