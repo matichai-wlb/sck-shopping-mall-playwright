@@ -111,7 +111,7 @@ shoppingData.forEach((data) => {
         // await expect(shopPage.locator("#order-success-tracking-id")).toContainText("xxxxxxxxxxx")
         await shopPage.fill("#notification-form-email-input", data.Email);
         await shopPage.fill("#notification-form-mobile-input", data.PhoneNumber);
-        // await shopPage.click("#send-notification-btn");
+        await shopPage.click("#send-notification-btn");
 
 
     });

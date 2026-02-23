@@ -21,20 +21,23 @@ import { test, expect } from '@playwright/test';
             await expect(page.locator("#product-detail-stock")).toHaveText(/90/);
         });
 
-        await test.step('3. เพิ่มสินค้าลงตะกร้าและตรวจสอบและกด checkout', async () => {
-            await page.locator("#product-detail-quantity-input").fill('3');
+        await test.step('3. เพิ่มสินค้าลงตะกร้าและตรวจสอบ icon ตะกร้ามีสินค้าอยู่จริง', async () => {
+            await page.locator("#product-detail-quantity-input").fill('1');
             await page.locator("#product-detail-add-to-cart-btn").click(); 
             await expect(page.locator("#header-menu-cart-badge")).toHaveText('1');
             await page.locator("#header-menu-cart-btn").click();
+         });
+
+        await test.step(`4. ตรวจสอบรายละเอียดราคารวมและแต้มรวมของสินค้าในตะกร้าและกด Checkout`, async () => {
             await expect(page.locator("#product-1-name")).toHaveText('Balance Training Bicycle');
-            await expect(page.locator("#product-1-quantity-input")).toHaveValue('3');
-            await expect(page.locator("#product-1-price")).toHaveText(/12,943\.80/);
-            await expect(page.locator("#product-1-point")).toHaveText(/129/);
-            await expect(page.locator("#shopping-cart-subtotal-price")).toHaveText('12,943.80');
+            await expect(page.locator("#product-1-quantity-input")).toHaveValue('1');
+            await expect(page.locator("#product-1-price")).toHaveText(/4,314\.60/);
+            await expect(page.locator("#product-1-point")).toHaveText(/43/);
+            await expect(page.locator("#shopping-cart-subtotal-price")).toHaveText('4,314.60');
             await page.locator("#shopping-cart-checkout-btn").click();
         });
 
-        await test.step(`4.ใส่ข้อมูลที่อยู่สำหรับจัดส่งและตรวจสอบเลขไปรษณีย์`, async () => {
+        await test.step(`5. ใส่ข้อมูลที่อยู่สำหรับจัดส่งและตรวจสอบเลขไปรษณีย์`, async () => {
             await page.locator("#shipping-form-first-name-input").fill('Matichai');
             await page.locator("#shipping-form-last-name-input").fill('Duangjit');
             await page.locator("#shipping-form-address-input").fill('123 หมู่ 6, ถนนสุขุมวิท');
@@ -45,7 +48,7 @@ import { test, expect } from '@playwright/test';
             await page.locator("#shipping-form-mobile-input").fill('0625928956');
         });
 
-        await test.step(`5.เลือกวิธีการจัดส่งและวิธีการชำระเงินเพื่อใส่ข้อมูลบัตรเครดิต`, async () => {
+        await test.step(`6. เลือกวิธีการจัดส่งและวิธีการชำระเงินเพื่อใส่ข้อมูลบัตรเครดิต`, async () => {
             await page.locator("#shipping-method-2-time").click();
             await page.locator("#payment-credit-input").click();
             await page.locator("#payment-credit-form-fullname-input").fill('MATICHAI DUANGJIT');
@@ -54,24 +57,31 @@ import { test, expect } from '@playwright/test';
             await page.locator("#payment-credit-form-cvv-input").fill(`726`);
         });
 
-        await test.step(`6.ตรวจสอบราคาสินค้า ค่าจัดส่ง และยอดชำระทั้งหมดในหน้า checkout กด PAYNOW`, async () => {
-            await expect(page.locator("#product-1-price")).toHaveText(/12,943\.80/);
-            await expect(page.locator("#product-1-point")).toHaveText(/129/);
+        await test.step(`7. ตรวจสอบราคาสินค้า ค่าจัดส่ง และยอดชำระทั้งหมดในหน้า checkout กด PAYNOW`, async () => {
+            await expect(page.locator("#product-1-price")).toHaveText(/4,314\.60/);
+            await expect(page.locator("#product-1-point")).toHaveText(/43/);
             await expect(page.locator("#product-1-stock")).toHaveText(/90/);
-            await expect(page.locator("#order-summary-subtotal-price")).toHaveText(/12,943\.80/);
+            await expect(page.locator("#order-summary-subtotal-price")).toHaveText(/4,314\.60/);
             await expect(page.locator("#order-summary-shipping-fee-price")).toHaveText(/50\.00/);
-            await expect(page.locator("#order-summary-total-payment-price")).toHaveText(/12,993\.80/);
-            await expect(page.locator("#order-summary-receive-point-price")).toHaveText(/129/);
+            await expect(page.locator("#order-summary-total-payment-price")).toHaveText(/4,364\.60/);
+            await expect(page.locator("#order-summary-receive-point-price")).toHaveText(/43/);
             await page.locator("#payment-now-btn").click();
         });
 
-        await test.step(`7.ตรวจสอบการแสดงผลหน้า SCK Payment Gateway และยืนยันรหัส OTP`, async () => {
+        await test.step(`8.ตรวจสอบการแสดงผลหน้า SCK Payment Gateway และยืนยันรหัส OTP`, async () => {
             await expect(page.getByRole('heading', { name: 'SCK Payment Gateway' })).toBeVisible();
             await expect(page.getByText("SCK Shopping Mall")).toBeVisible();
-            await expect(page.getByText(/12,993\.80/)).toBeVisible();
+            await expect(page.getByText(/4,364\.60/)).toBeVisible();
             await expect(page.getByText("**** **** **** 5555")).toBeVisible();
-            await page.locator("#otp-input").fill('2546200');
+            await page.locator("#otp-input").fill('254620');
             await page.getByRole('button', {name: 'OK'}).click();
         });      
+
+        await test.step(`9. ตรวจสอบข้อความยืนยันการสั่งซื้อหลังจากสั่งซื้อสำเร็จ`, async () => {
+            await expect(page.getByRole('heading', { name: 'Thank you for your order' })).toBeVisible();
+            await page.locator("#notification-form-email-input").fill('matichai.dua@welovebug.com');
+            await page.locator("#notification-form-mobile-input").fill('0625928956');
+            await page.locator("#send-notification-btn").click();
+        });
 
     });
