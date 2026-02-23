@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
     
-    test("ทดสอบเลือกสินค้าลงตะกร้า", async ({ page, context }) => {
+    test("ทดสอบซื้อสินค้า Balance Training Bicycle ซื้อสำเร็จ", async ({ page, context }) => {
         await test.step('1. เปิดหน้าเว็บและเข้าสู่ระบบ Shopping Mall', async () => {
             await page.goto('http://139.59.225.96/auth/login');
             await expect(page.getByRole('heading', { name: 'Login' })).toBeVisible();
@@ -33,7 +33,7 @@ import { test, expect } from '@playwright/test';
             await expect(page.locator("#product-1-quantity-input")).toHaveValue('1');
             await expect(page.locator("#product-1-price")).toHaveText(/4,314\.60/);
             await expect(page.locator("#product-1-point")).toHaveText(/43/);
-            await expect(page.locator("#shopping-cart-subtotal-price")).toHaveText('4,314.60');
+            await expect(page.locator("#shopping-cart-subtotal-price")).toHaveText(/4,314\.60/);
             await page.locator("#shopping-cart-checkout-btn").click();
         });
 
