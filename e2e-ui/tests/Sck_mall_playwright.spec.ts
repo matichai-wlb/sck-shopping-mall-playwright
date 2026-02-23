@@ -10,7 +10,7 @@ import { test, expect } from '@playwright/test';
             await page.locator("#login-btn").click();
         });
 
-        await test.step('2. ค้นหาและตรวจสอบรายละเอียดสินค้า', async () => {
+        await test.step('2. ค้นหาและตรวจสอบรายละเอียดสินค้า Balance Training Bicycle', async () => {
             await page.locator("#search-product-input").fill('Balance Training Bicycle');
             await page.locator("#search-product-btn").click(); 
             await expect(page.locator("#product-card-name-1")).toHaveText('Balance Training Bicycle');
@@ -21,7 +21,7 @@ import { test, expect } from '@playwright/test';
             await expect(page.locator("#product-detail-stock")).toHaveText(/90/);
         });
 
-        await test.step('3. เพิ่มสินค้าลงตะกร้าและตรวจสอบ icon ตะกร้ามีสินค้าอยู่จริง', async () => {
+        await test.step('3. เพิ่มสินค้าลงตะกร้าและตรวจสอบตะกร้ามีสินค้าอยู่ 1 ชิ้น', async () => {
             await page.locator("#product-detail-quantity-input").fill('1');
             await page.locator("#product-detail-add-to-cart-btn").click(); 
             await expect(page.locator("#header-menu-cart-badge")).toHaveText('1');
@@ -68,7 +68,7 @@ import { test, expect } from '@playwright/test';
             await page.locator("#payment-now-btn").click();
         });
 
-        await test.step(`8.ตรวจสอบการแสดงผลหน้า SCK Payment Gateway และยืนยันรหัส OTP`, async () => {
+        await test.step(`8. ตรวจสอบการแสดงผลหน้า SCK Payment Gateway และยืนยันรหัส OTP`, async () => {
             await expect(page.getByRole('heading', { name: 'SCK Payment Gateway' })).toBeVisible();
             await expect(page.getByText("SCK Shopping Mall")).toBeVisible();
             await expect(page.getByText(/4,364\.60/)).toBeVisible();

@@ -20,8 +20,7 @@ test("ค้นหาและซื้อสินค้า เลือกว�
         headers: {
             "Authorization" : "Bearer " + accessToken,
         }
-    }
-    );
+    });
     expect(responseSearchProduct.ok()).toBeTruthy();
     expect((await responseSearchProduct.json()).products[0].product_name).toBe("Balance Training Bicycle");
     expect((await responseSearchProduct.json()).products[0].product_price_thb).toBe(4314.6);
