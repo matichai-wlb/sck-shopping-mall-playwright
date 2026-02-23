@@ -1,7 +1,0 @@
-1.เข้า URL
-2.กรอก Username
-3.กรอก Password
-4.กด Login
-5.พิมค้นหาสินค้า enter
-6.add to cart
-7.
