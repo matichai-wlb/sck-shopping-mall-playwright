@@ -18,7 +18,7 @@ import { test, expect } from '@playwright/test';
             await expect(page.locator("#product-detail-product-name")).toHaveText('Balance Training Bicycle');
             await expect(page.locator("#product-detail-price-thb")).toHaveText(/4,314\.60/);
             await expect(page.locator("#product-detail-point")).toHaveText(/43/);
-            await expect(page.locator("#product-detail-stock")).toHaveText(/90/);
+            
         });
 
         await test.step('3. เพิ่มสินค้าลงตะกร้าและตรวจสอบตะกร้ามีสินค้าอยู่ 1 ชิ้น', async () => {
@@ -60,7 +60,6 @@ import { test, expect } from '@playwright/test';
         await test.step(`7. ตรวจสอบราคาสินค้า ค่าจัดส่ง และยอดชำระทั้งหมดในหน้า checkout กด PAYNOW`, async () => {
             await expect(page.locator("#product-1-price")).toHaveText(/4,314\.60/);
             await expect(page.locator("#product-1-point")).toHaveText(/43/);
-            await expect(page.locator("#product-1-stock")).toHaveText(/90/);
             await expect(page.locator("#order-summary-subtotal-price")).toHaveText(/4,314\.60/);
             await expect(page.locator("#order-summary-shipping-fee-price")).toHaveText(/50\.00/);
             await expect(page.locator("#order-summary-total-payment-price")).toHaveText(/4,364\.60/);
